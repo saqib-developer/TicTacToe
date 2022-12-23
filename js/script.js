@@ -1,18 +1,19 @@
+// document.getElementById('b1').innerHTML = 'Hide';
 let player = 1;
-function turn() {
+function turn(btnId) {
     if (player == 1) {
         player++;
-        cross();
+        cross(btnId);
     } else if (player == 2) {
         player--;
-        circle();
+        circle(btnId);
     }
 }
 
-function cross() {
-    // document.getElementsByTagName('button').innerHTML = 'X';
+function cross(btnId) {
+    document.getElementById(btnId).firstElementChild.textContent = "X";
 }
 
-function circle() {
-    // document.getElementsByTagName('button').innerHTML = 'O';
+function circle(btnId) {
+    document.getElementById(btnId).firstElementChild.textContent = 'O';
 }

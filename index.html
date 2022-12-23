@@ -7,25 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js"></script>
+    <script defer src="js/script.js"></script>
 </head>
 
 <body>
     <div class="cantainer">
         <div class="rows">
-            <button class="row-1 coloumn-1" onclick="turn()"></button>
-            <button class="row-1 coloumn-2" onclick="turn()"></button>
-            <button class="row-1 coloumn-3" onclick="turn()"></button>
+            <button class="row-1 coloumn-1" id="r1-c1" onclick="turn(this.id)"><span></span></button>
+            <button class="row-1 coloumn-2" id="r1-c2" onclick="turn(this.id)"><span></span></button>
+            <button class="row-1 coloumn-3" id="r1-c3" onclick="turn(this.id)"><span></span></button>
         </div>
         <div class="rows">
-            <button class="row-2 coloumn-1" onclick="turn()"></button>
-            <button class="row-2 coloumn-2" onclick="turn()"></button>
-            <button class="row-2 coloumn-3" onclick="turn()"></button>
+            <button class="row-2 coloumn-1" id="r2-c1" onclick="turn(this.id)"><span></span></button>
+            <button class="row-2 coloumn-2" id="r2-c2" onclick="turn(this.id)"><span></span></button>
+            <button class="row-2 coloumn-3" id="r2-c3" onclick="turn(this.id)"><span></span></button>
         </div>
         <div class="rows">
-            <button class="row-3 coloumn-1" onclick="turn()"></button>
-            <button class="row-3 coloumn-2" onclick="turn()"></button>
-            <button class="row-3 coloumn-3" onclick="turn()"></button>
+            <button class="row-3 coloumn-1" id="r3-c1" onclick="turn(this.id)"><span></span></button>
+            <button class="row-3 coloumn-2" id="r3-c2" onclick="turn(this.id)"><span></span></button>
+            <button class="row-3 coloumn-3" id="r3-c3" onclick="turn(this.id)"><span></span></button>
         </div>
     </div>
 </body>

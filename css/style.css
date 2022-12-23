@@ -1,9 +1,9 @@
-*{
+* {
     padding: 0px;
     margin: 0px;
 }
 
-body{
+body {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -15,29 +15,34 @@ body{
     background-image: linear-gradient(to bottom right, rgb(0, 132, 255), rgb(0, 200, 255));
 }
 
-.cantainer{
+.cantainer {
     background-color: aqua;
 }
 
-button{
+button {
     height: 160px;
     width: 160px;
     border: 1px solid aqua;
-    color: black;
 }
 
-.row-1{
+button span {
+    color: black;
+    font-size: 30px;
+    font-weight: bolder;
+}
+/* 
+.row-1 {
     border-top-style: none;
 }
 
-.row-3{
+.row-3 {
     border-bottom-style: none;
 }
 
-.coloumn-1{
+.coloumn-1 {
     border-left-style: none;
 }
 
-.coloumn-3{
+.coloumn-3 {
     border-right-style: none;
-}
+} */
