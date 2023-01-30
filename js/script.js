@@ -1,24 +1,21 @@
 let player = 1;
 let canrun = true;
 let placesLeft = 9;
+let drawn = true;
 
 function turn(btnId) {
     let possible = document.getElementById(btnId).hasAttribute('name');
-    if (placesLeft !== 0) {
-        if (!possible && canrun) {
-            document.getElementById(btnId).setAttribute('name', 'checked');
-            if (player == 1) {
-                player++;
-                document.getElementById(btnId).firstElementChild.textContent = 'X';
-                document.getElementById(btnId).firstElementChild.setAttribute('class', 'cross');
-            } else if (player == 2) {
-                player--;
-                document.getElementById(btnId).firstElementChild.textContent = 'O';
-                document.getElementById(btnId).firstElementChild.setAttribute('class', 'circle');
-            }
+    if (!possible && canrun) {
+        document.getElementById(btnId).setAttribute('name', 'checked');
+        if (player == 1) {
+            player++;
+            document.getElementById(btnId).firstElementChild.textContent = 'X';
+            document.getElementById(btnId).firstElementChild.setAttribute('class', 'cross');
+        } else if (player == 2) {
+            player--;
+            document.getElementById(btnId).firstElementChild.textContent = 'O';
+            document.getElementById(btnId).firstElementChild.setAttribute('class', 'circle');
         }
-    } else {
-        draw();
     }
 }
 
@@ -69,11 +66,15 @@ function end(row, column, id) {
             won('O');
             break;
     }
+    if (drawn && (placesLeft === 0)) {
+        draw();
+    }
 }
 
 function won(winner) {
     document.getElementById('result').innerHTML = winner + ' Won the Match'
     console.log(winner + ' Won the Match');
+    drawn = false;
     gameEnded();
 }
 
