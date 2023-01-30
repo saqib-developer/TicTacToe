@@ -1,0 +1,6 @@
+@media screen and (max-width:470px) {
+    .box {
+        width: 26vw;
+        height: 19vh;
+    }
+}
