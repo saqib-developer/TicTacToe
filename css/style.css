@@ -45,10 +45,15 @@ body {
     border: none;
 }
 
+.box:hover{
+    background: #63b1bb3d;
+}
+
 .box span {
     font-size: 70px;
     font-weight: bolder;
     font-family: 'Seymour One', sans-serif;
+    line-height: 0;
 }
 
 .cross {
