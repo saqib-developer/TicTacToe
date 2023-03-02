@@ -72,14 +72,14 @@ function end(row, column, id) {
 }
 
 function won(winner) {
-    document.getElementById('result').innerHTML = winner + ' Won the Match'
+    document.getElementById('result').innerHTML = winner + ' Won';
     console.log(winner + ' Won the Match');
     drawn = false;
     gameEnded();
 }
 
 function draw() {
-    document.getElementById('result').innerHTML = 'Match was Drawn'
+    document.getElementById('result').innerHTML = 'Match Drawn'
     console.log('Match was Drawn');
     gameEnded();
 }
