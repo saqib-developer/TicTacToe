@@ -1,5 +1,5 @@
 let player = 1;
-let ai = false;
+let ai = true;
 let canrun = true;
 let placesLeft = 9;
 let drawn = true;

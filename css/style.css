@@ -17,11 +17,11 @@ body {
     background-image: linear-gradient(to bottom, rgb(0, 132, 255), rgb(0, 200, 255));
 }
 
-.menus{
+.menu{
     position: absolute;
     top: 13px;
     right: 15px;
-    font-size: 2.7em !important;
+    font-size: 1.5em !important;
     background: transparent;
     border-radius: 10px;
     border: 2px solid black;
@@ -29,8 +29,7 @@ body {
     cursor: pointer;
 }
 
-.menus:hover{
-    transform: scale(1.2);
+.menu:hover{
     background: #313131bd;
     border: 2px solid white;
     color: white;
@@ -96,4 +95,5 @@ body {
     padding: 6px 31px;
     box-shadow: 0px 0px 10px 1px black;
     border-radius: 30px;
+    cursor: pointer;
 }
