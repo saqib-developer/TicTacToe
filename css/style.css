@@ -17,6 +17,25 @@ body {
     background-image: linear-gradient(to bottom, rgb(0, 132, 255), rgb(0, 200, 255));
 }
 
+.menus{
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    font-size: 2.7em !important;
+    background: transparent;
+    border-radius: 10px;
+    border: 2px solid black;
+    transition: all 1.2s;
+    cursor: pointer;
+}
+
+.menus:hover{
+    transform: scale(1.2);
+    background: #313131bd;
+    border: 2px solid white;
+    color: white;
+}
+
 #result {
     font-size: 58px;
     color: black;
