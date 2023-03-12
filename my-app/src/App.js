@@ -6,21 +6,16 @@ function App() {
   let canrun = true;
   let board = ["", "", "", "", "", "", "", "", ""];
 
-
   const turn = (element) => {
-    if (ai) {
-      let possible = element.hasAttribute('name');
-      if (!possible && canrun) {
+    let possible = element.hasAttribute('name');
+    if (!possible && canrun) {
+      if (ai) {
         element.setAttribute('name', 'checked');
         element.firstElementChild.textContent = 'X';
         element.firstElementChild.setAttribute('class', 'cross');
         board[parseInt(element.id)] = "X";
         computerTurn();
-        RealWinner();
-      }
-    } else {
-      let possible = element.hasAttribute('name');
-      if (!possible && canrun) {
+      } else {
         element.setAttribute('name', 'checked');
         if (player === 1) {
           player++;
@@ -33,9 +28,8 @@ function App() {
           element.firstElementChild.setAttribute('class', 'circle');
           board[parseInt(element.id)] = "O";
         }
-        RealWinner();
-
       }
+      RealWinner();
     }
   }
 
@@ -104,7 +98,6 @@ function App() {
     }
 
     // Check columns
-    // 0 1 2
     for (let i = 0; i < 3; i++) {
       if (board[i] !== "" && board[i] === board[i + 3] && board[i] === board[i + 6]) {
         if (i === 2) {
