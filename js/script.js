@@ -1,5 +1,5 @@
 let player = 1;
-let ai = false;
+let ai = true;
 let canrun = true;
 let placesLeft = 9;
 let drawn = true;
@@ -150,10 +150,10 @@ function RealWinner() {
                     document.getElementById('line').style.transform = 'rotate(90deg)'
                     document.getElementById('line').style.marginBottom = '226px'
                     break;
-                    case 1:
-                        console.log(1);
-                        document.getElementById('line').style.transform = 'rotate(0deg)'
-                        document.getElementById('line').style.marginRight = '226px'
+                case 1:
+                    console.log(1);
+                    document.getElementById('line').style.transform = 'rotate(0deg)'
+                    document.getElementById('line').style.marginRight = '226px'
                     break;
                 case 2:
                     console.log(2);
