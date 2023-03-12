@@ -1,38 +1,87 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Seymour+One&display=swap');
+
+@media screen and (max-width:470px) {
+  .box {
+    width: 6.8em;
+    height: 7.3em;
+  }
+}
+
+#result {
+  font-size: 58px;
+  color: black;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.cantainer {
+  background-color: rgb(227 232 235);
+  border-radius: 22px;
+  padding: 11px;
+  min-width: 70px;
+  min-height: 70px;
+  margin-top: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.rows {
+  word-spacing: -10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.box {
+  height: calc(25em/2.5);
+  width: calc(25em/2.5);
+  border-radius: 20px;
+  margin: 3px;
+  background: #71d4bd3d;
+  border: none;
+  transition: all 0.3s;
+  line-height: 4;
 }
 
-.App-link {
-  color: #61dafb;
+.box:hover {
+  background: #63b1bb3d;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.box span {
+  font-size: 70px;
+  font-weight: bolder;
+  font-family: 'Seymour One', sans-serif;
+  line-height: 0;
+}
+
+.cross {
+  text-shadow: 0px 20px 20px #28b1d0c2;
+  background: linear-gradient(to bottom, #00ffff, #1017e7);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.circle {
+  text-shadow: 0px 20px 20px #ffbb47a1;
+  background: linear-gradient(to bottom, #ffe000, #ff6600);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.restart {
+  background: #208eff;
+  border: none;
+  margin-top: 25px;
+  padding: 6px 31px;
+  box-shadow: 0px 0px 10px 1px black;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.line {
+  position: absolute;
+  background-color: #00c8ff;
+  width: 6px;
+  height: 351px;
+  border-radius: 15px;
+  display: none;
+  margin: 30px 0 0 205px;
 }
