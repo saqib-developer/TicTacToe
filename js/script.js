@@ -1,5 +1,5 @@
 let player = 1;
-let ai = true;
+let ai = false;
 let canrun = true;
 let placesLeft = 9;
 let drawn = true;
@@ -23,6 +23,7 @@ if (ai) {
         let numb = minimax(board, 'O').move;
         if (numb !== undefined) {
             board[numb] = "O";
+            document.getElementById(numb.toString()).setAttribute('name', 'checked');
             document.getElementById(numb.toString()).firstElementChild.textContent = 'O';
             document.getElementById(numb.toString()).firstElementChild.setAttribute('class', 'circle');
         }
@@ -31,7 +32,7 @@ if (ai) {
 
     function minimax(board, player) {
         // Base case: check if the game is over
-        var result = checkWinner(board);
+        let result = checkWinner(board).winnerMark;
         if (result !== null) {
             // Return a value based on who won
             switch (result) {
@@ -42,13 +43,13 @@ if (ai) {
         }
 
         // Recursive case: evaluate all possible moves
-        var bestMove;
-        var bestValue = (player === "X") ? -Infinity : Infinity; // Initialize best value
-        for (var i = 0; i < board.length; i++) {
+        let bestMove;
+        let bestValue = (player === "X") ? -Infinity : Infinity; // Initialize best value
+        for (let i = 0; i < board.length; i++) {
             if (board[i] === "") {
                 // Make a move and get its value
                 board[i] = player;
-                var moveValue = minimax(board, (player === "X") ? "O" : "X").value;
+                let moveValue = minimax(board, (player === "X") ? "O" : "X").value;
                 board[i] = ""; // Undo the move
 
                 // Update best value and best move
@@ -90,44 +91,93 @@ if (ai) {
 
 function checkWinner(board) {
     // Check rows
-    for (var i = 0; i < 9; i += 3) {
+    // 0 3 6
+    for (let i = 0; i < 9; i += 3) {
         if (board[i] !== "" && board[i] === board[i + 1] && board[i] === board[i + 2]) {
-            return board[i];
+            if (i === 6) {
+                return { winnerMark: board[i], place: 5 };
+            } else {
+                return { winnerMark: board[i], place: (i) };
+            }
         }
     }
 
     // Check columns
-    for (var i = 0; i < 3; i++) {
+    // 0 1 2
+    for (let i = 0; i < 3; i++) {
         if (board[i] !== "" && board[i] === board[i + 3] && board[i] === board[i + 6]) {
-            return board[i];
+            if (i === 2) {
+                return { winnerMark: board[i], place: 4 };
+            } else {
+                return { winnerMark: board[i], place: (i + 1) };
+            }
         }
     }
 
     // Check diagonals
     if (board[0] !== "" && board[0] === board[4] && board[0] === board[8]) {
-        return board[0];
+        return { winnerMark: board[0], place: 6 };
     }
     if (board[2] !== "" && board[2] === board[4] && board[2] === board[6]) {
-        return board[2];
+        return { winnerMark: board[2], place: 7 };
     }
 
     // Check for tie
-    for (var i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
         if (board[i] === "") {
-            return null;
+            return { winnerMark: null, place: null };
         }
     }
-    return "tie";
+    return { winnerMark: "tie", place: undefined };
+    ;
 }
 
 
 function RealWinner() {
-    let winner = checkWinner(board);
-    if (winner !== null) {
-        switch (winner) {
+    let winnerPlace = checkWinner(board);
+
+    if (winnerPlace.winnerMark !== null) {
+        switch (winnerPlace.winnerMark) {
             case "X": won('X'); break;
             case "O": won('O'); break;
             case "tie": draw(); break;
+        }
+        if (winnerPlace.winnerMark !== 'tie') {
+            document.getElementById('line').style.display = 'block';
+            switch (winnerPlace.place) {
+                case 0:
+                    console.log(0);
+                    document.getElementById('line').style.transform = 'rotate(90deg)'
+                    break;
+                case 1:
+                    console.log(1);
+                    document.getElementById('line').style.transform = 'rotate(0deg)'
+                    break;
+                case 2:
+                    console.log(2);
+                    document.getElementById('line').style.transform = 'rotate(0deg)'
+                    break;
+                case 3:
+                    console.log(3);
+                    document.getElementById('line').style.transform = 'rotate(90deg)'
+                    break;
+                case 4:
+                    console.log(4);
+                    document.getElementById('line').style.transform = 'rotate(0deg)'
+                    break;
+                case 5:
+                    console.log(5);
+                    document.getElementById('line').style.transform = 'rotate(90deg)'
+                    break;
+                case 6:
+                    console.log(6);
+                    document.getElementById('line').style.transform = 'rotate(-45deg)'
+                    break;
+                case 7:
+                    console.log(7);
+                    document.getElementById('line').style.transform = 'rotate(45deg)'
+                    break;
+            }
         }
     }
 }
