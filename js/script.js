@@ -1,5 +1,5 @@
 let player = 1;
-let ai = true;
+let ai = false;
 let canrun = true;
 let placesLeft = 9;
 let drawn = true;
@@ -148,10 +148,12 @@ function RealWinner() {
                 case 0:
                     console.log(0);
                     document.getElementById('line').style.transform = 'rotate(90deg)'
+                    document.getElementById('line').style.marginBottom = '226px'
                     break;
-                case 1:
-                    console.log(1);
-                    document.getElementById('line').style.transform = 'rotate(0deg)'
+                    case 1:
+                        console.log(1);
+                        document.getElementById('line').style.transform = 'rotate(0deg)'
+                        document.getElementById('line').style.marginRight = '226px'
                     break;
                 case 2:
                     console.log(2);
@@ -160,6 +162,7 @@ function RealWinner() {
                 case 3:
                     console.log(3);
                     document.getElementById('line').style.transform = 'rotate(90deg)'
+                    document.getElementById('line').style.marginBottom = '-27px'
                     break;
                 case 4:
                     console.log(4);
@@ -168,6 +171,7 @@ function RealWinner() {
                 case 5:
                     console.log(5);
                     document.getElementById('line').style.transform = 'rotate(90deg)'
+                    document.getElementById('line').style.marginBottom = '-317px'
                     break;
                 case 6:
                     console.log(6);
