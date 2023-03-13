@@ -1,12 +1,14 @@
 .join-options-container {
     width: 100vw;
     height: 100vh;
-    background-color: #00000080;
+    background-color: #0000008f;
     position: fixed;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    border: none;
 }
 
 .join-options {
@@ -17,10 +19,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 22%;
+    width: 250px;
 }
 
-.password-container {
+.id-container {
     margin: 8px 0 17px 0px;
 }
 
