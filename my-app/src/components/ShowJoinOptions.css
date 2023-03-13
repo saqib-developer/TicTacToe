@@ -1,0 +1,46 @@
+.join-options-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000080;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.join-options {
+    background: white;
+    padding: 18px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 22%;
+}
+
+.password-container {
+    margin: 8px 0 17px 0px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+}
+
+.button-container button {
+    padding: 6px 15px;
+    background: #0094ff;
+    cursor: pointer;
+    transition: all 0.5s;
+    border-radius: 7px;
+    border: 1.5px solid transparent;
+}
+
+.button-container button:hover {
+    background: #0095ff9c;
+    border: 1.5px solid black;
+}

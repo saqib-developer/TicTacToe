@@ -1,21 +1,47 @@
 import './App.css';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, get, set } from 'firebase/database';
+import { useState } from 'react';
+import ShowJoinOptions from './components/ShowJoinOptions';
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 function App() {
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBwCzXU5gobAsSwICILCS7ooo3sfkGX76M",
+    authDomain: "tictactoe-a8087.firebaseapp.com",
+    projectId: "tictactoe-a8087",
+    storageBucket: "tictactoe-a8087.appspot.com",
+    messagingSenderId: "728019266800",
+    appId: "1:728019266800:web:7020f2f9e70911a2db6635",
+    measurementId: "G-DYP4T94VX4"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  const [showJoinOptions, setShowJoinOptions] = useState(false)
   let player = 1;
-  let ai = false;
+  let opponent = 'online';//ai, online, twoPlayer
   let canrun = true;
   let board = ["", "", "", "", "", "", "", "", ""];
 
   const turn = (element) => {
     let possible = element.hasAttribute('name');
     if (!possible && canrun) {
-      if (ai) {
+      if (opponent === 'ai') {
         element.setAttribute('name', 'checked');
         element.firstElementChild.textContent = 'X';
         element.firstElementChild.setAttribute('class', 'cross');
         board[parseInt(element.id)] = "X";
         computerTurn();
-      } else {
+      } else if (opponent === 'twoPlayer') {
         element.setAttribute('name', 'checked');
         if (player === 1) {
           player++;
@@ -27,6 +53,8 @@ function App() {
           element.firstElementChild.textContent = 'O';
           element.firstElementChild.setAttribute('class', 'circle');
           board[parseInt(element.id)] = "O";
+        } else if (opponent === 'online') {
+
         }
       }
       RealWinner();
@@ -220,7 +248,17 @@ function App() {
           <button className="box row-3 coloumn-3" id="8" onClick={(event) => { turn(event.target) }}><span></span></button>
         </div>
       </div>
-      <button className="restart" onClick={restart}>Restart</button>
+      {opponent === 'online' ? (
+        <button className="restart" onClick={()=>{setShowJoinOptions(true)}}>join</button>
+      ) : (
+        <button className="restart" onClick={restart}>Restart</button>
+      )}
+      {showJoinOptions ? (
+        <ShowJoinOptions setShowJoinOptions={setShowJoinOptions}/>
+      ) : (
+        <div></div>
+      )}
+
     </>
   );
 }

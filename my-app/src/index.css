@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
   min-height: 100vh;
   min-width: 98vw;
@@ -6,6 +8,7 @@ body {
   align-items: center;
   justify-content: center;
   background-image: linear-gradient(to bottom, rgb(0, 132, 255), rgb(0, 200, 255));
+  font-family: 'Roboto', sans-serif;
 }
 
 * {
@@ -16,4 +19,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
