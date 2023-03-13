@@ -283,19 +283,19 @@ function App() {
       <div className="cantainer">
         <div className="line" id="line"></div>
         <div className="rows">
-          <button className="box row-1 coloumn-1" id="0" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-1 coloumn-2" id="1" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-1 coloumn-3" id="2" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="0" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="1" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="2" onClick={(event) => { turn(event.target) }}><span></span></button>
         </div>
         <div className="rows">
-          <button className="box row-2 coloumn-1" id="3" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-2 coloumn-2" id="4" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-2 coloumn-3" id="5" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="3" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="4" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="5" onClick={(event) => { turn(event.target) }}><span></span></button>
         </div>
         <div className="rows">
-          <button className="box row-3 coloumn-1" id="6" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-3 coloumn-2" id="7" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box row-3 coloumn-3" id="8" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="6" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="7" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="8" onClick={(event) => { turn(event.target) }}><span></span></button>
         </div>
       </div>
       {opponent === 'online' ? (
