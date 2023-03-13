@@ -7,16 +7,14 @@ export default function ShowJoinOptions(props) {
             <form className='join-options'>
                 <h3>Create Room</h3>
                 <div className='name-container'>
-                    <span>Name: </span>
-                    <input type="text" />
+                    <span>Name: </span> <input type="text" required />
                 </div>
                 <div className='password-container'>
-                    <span>Password: </span>
-                    <input type="password" />
+                    <span>Password: </span> <input type="password" required />
                 </div>
                 <div className='button-container'>
-                    <button>OK</button>
-                    <button onClick={()=>{props.setShowJoinOptions(false)}}>Cancel</button>
+                    <button type='submit'>OK</button>
+                    <button onClick={() => { props.setShowJoinOptions(false) }}>Cancel</button>
                 </div>
             </form>
         </div>

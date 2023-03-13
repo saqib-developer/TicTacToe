@@ -1,8 +1,8 @@
 import './App.css';
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, get, set } from 'firebase/database';
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// import { getDatabase, ref, get, set } from 'firebase/database';
 import { useState } from 'react';
 import ShowJoinOptions from './components/ShowJoinOptions';
 
@@ -12,19 +12,19 @@ import ShowJoinOptions from './components/ShowJoinOptions';
 function App() {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBwCzXU5gobAsSwICILCS7ooo3sfkGX76M",
-    authDomain: "tictactoe-a8087.firebaseapp.com",
-    projectId: "tictactoe-a8087",
-    storageBucket: "tictactoe-a8087.appspot.com",
-    messagingSenderId: "728019266800",
-    appId: "1:728019266800:web:7020f2f9e70911a2db6635",
-    measurementId: "G-DYP4T94VX4"
-  };
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyBwCzXU5gobAsSwICILCS7ooo3sfkGX76M",
+  //   authDomain: "tictactoe-a8087.firebaseapp.com",
+  //   projectId: "tictactoe-a8087",
+  //   storageBucket: "tictactoe-a8087.appspot.com",
+  //   messagingSenderId: "728019266800",
+  //   appId: "1:728019266800:web:7020f2f9e70911a2db6635",
+  //   measurementId: "G-DYP4T94VX4"
+  // };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  // const app = initializeApp(firebaseConfig);
+  // const analytics = getAnalytics(app);
 
   const [showJoinOptions, setShowJoinOptions] = useState(false)
   let player = 1;
@@ -249,7 +249,7 @@ function App() {
         </div>
       </div>
       {opponent === 'online' ? (
-        <button className="restart" onClick={()=>{setShowJoinOptions(true)}}>join</button>
+        <button className="restart" onClick={()=>{setShowJoinOptions(true)}}>Create</button>
       ) : (
         <button className="restart" onClick={restart}>Restart</button>
       )}
