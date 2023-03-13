@@ -37,11 +37,23 @@ function App() {
       let data = (snapshot.val());
       board = data.board;
       player = data.player;
+      board.forEach((element, index) => {
+        if (element !== '') {
+          if (element === 'X') {
+            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
+          } else if (element === 'O') {
+            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+          }
+          document.getElementById(index.toString()).firstElementChild.textContent = element;
+        }
+      });
     }).catch((error) => {
       console.error(error);
     });
   }
-  getData();
+  if (gameId !== undefined) {
+    getData();
+  }
 
   const turn = (element) => {
     let possible = element.hasAttribute('name');
@@ -274,9 +286,11 @@ function App() {
     setShowJoinOptions(false);
     const id = document.getElementById('idOfGame').value;
     gameId = id;
-
-    sync(id)
+    if (purpose === 'create') {
+      sync(id)
+    }
   }
+
   return (
     <>
       <p id="result"></p>
