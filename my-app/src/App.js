@@ -1,6 +1,6 @@
 import './App.css';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
 import { useState } from 'react';
 import ShowJoinOptions from './components/ShowJoinOptions';
 
@@ -31,6 +31,17 @@ function App() {
   let board = ["", "", "", "", "", "", "", "", ""];
   const [purpose, setPurpose] = useState('Join');
   let gameId = 'default';
+
+  const getData = () => {
+    get(ref(db, 'Game Rooms/' + gameId)).then((snapshot) => {
+      let data = (snapshot.val());
+      board = data.board;
+      player = data.player;
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+  getData();
 
   const turn = (element) => {
     let possible = element.hasAttribute('name');
@@ -68,6 +79,12 @@ function App() {
           element.firstElementChild.setAttribute('class', 'cross');
           board[parseInt(element.id)] = "X";
           sync(gameId);
+        } else if (player === 2) {
+          player--;
+          element.firstElementChild.textContent = 'O';
+          element.firstElementChild.setAttribute('class', 'circle');
+          board[parseInt(element.id)] = "O";
+          sync(gameId);
         }
       }
       RealWinner();
@@ -76,6 +93,7 @@ function App() {
 
   const sync = (id) => {
     set(ref(db, 'Game Rooms/' + id), {
+      player: player,
       board: board
     })
       .then(() => {
