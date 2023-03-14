@@ -1,7 +1,7 @@
 import './App.css';
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, set } from 'firebase/database';
-import { useState } from 'react';
+import { getDatabase, ref, onValue, set } from 'firebase/database';
+import { useState, useEffect } from 'react';
 import ShowJoinOptions from './components/ShowJoinOptions';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,35 +25,75 @@ function App() {
   const db = getDatabase(app);
 
   const [showJoinOptions, setShowJoinOptions] = useState(false)
-  let player = 1;
-  let opponent = 'ai';//ai, online, twoPlayer
+  const [player, setPlayer] = useState(1);
+  let opponent = 'online';//ai, online, twoPlayer
   let canrun = true;
-  let board = ["", "", "", "", "", "", "", "", ""];
+  const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
   const [purpose, setPurpose] = useState('Join');
   let gameId = 'default';
 
-  const getData = () => {
-    get(ref(db, 'Game Rooms/' + gameId)).then((snapshot) => {
-      let data = (snapshot.val());
-      board = data.board;
-      player = data.player;
-      board.forEach((element, index) => {
-        if (element !== '') {
-          if (element === 'X') {
-            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
-          } else if (element === 'O') {
-            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+  // setInterval(() => {
+  //   get(ref(db, 'Game Rooms/' + gameId)).then((snapshot) => {
+  //     let data = (snapshot.val());
+  //     setBoard(data.board);
+  //     setPlayer(data.player);
+  //     board.forEach((element, index) => {
+  //       if (element !== '') {
+  //         if (element === 'X') {
+  //           document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
+  //         } else if (element === 'O') {
+  //           document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+  //         }
+  //         document.getElementById(index.toString()).firstElementChild.textContent = element;
+  //       }
+  //     });
+  //   }).catch((error) => {
+  //     console.error(error);
+  //   });
+  //   console.log(board)
+  // }, 3000);
+
+  useEffect(() => {
+    if (gameId !== undefined) {
+      set(ref(db, 'Game Rooms/' + gameId), {
+        player: player,
+        board: board
+      })
+        .then(() => {
+          console.log('Turn Saved');
+        })
+        .catch((error) => {
+          console.log('Turn not Saved Error ' + error);
+        });
+    }
+
+  }, [board, db, gameId, player])
+
+  useEffect(() => {
+    if (gameId !== undefined) {
+
+
+      onValue(ref(db, 'Game Rooms/' + gameId), (snapshot) => {
+        let data = (snapshot.val());
+        setBoard(data.board);
+        console.log(board);
+        setPlayer(data.player);
+        board.forEach((element, index) => {
+          if (element !== '') {
+            if (element === 'X') {
+              document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
+            } else if (element === 'O') {
+              document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+            }
+            document.getElementById(index.toString()).firstElementChild.textContent = element;
           }
-          document.getElementById(index.toString()).firstElementChild.textContent = element;
-        }
+        });
+      }, (error) => {
+        console.error(error);
       });
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-  if (gameId !== undefined) {
-    getData();
-  }
+      
+    }
+  }, [db, gameId, player])
 
   const turn = (element) => {
     let possible = element.hasAttribute('name');
@@ -86,40 +126,31 @@ function App() {
 
       else if (opponent === 'online') {
         if (player === 1) {
-          player++;
-          element.firstElementChild.textContent = 'X';
-          element.firstElementChild.setAttribute('class', 'cross');
-          board[parseInt(element.id)] = "X";
-          sync(gameId);
+          setPlayer(player + 1);
+          // element.firstElementChild.setAttribute('class', 'cross');
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'X';
+            return [...ps]
+          });
         } else if (player === 2) {
-          player--;
-          element.firstElementChild.textContent = 'O';
-          element.firstElementChild.setAttribute('class', 'circle');
-          board[parseInt(element.id)] = "O";
-          sync(gameId);
+          setPlayer(player - 1);
+          // element.firstElementChild.setAttribute('class', 'circle');
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'O';
+            return [...ps]
+          });
         }
       }
       RealWinner();
     }
   }
 
-  const sync = (id) => {
-    set(ref(db, 'Game Rooms/' + id), {
-      player: player,
-      board: board
-    })
-      .then(() => {
-        console.log('Turn Saved');
-      })
-      .catch((error) => {
-        console.log('Turn not Saved Error ' + error);
-      });
-  }
-
   function computerTurn() {
     let numb = minimax(board, 'O').move;
     if (numb !== undefined) {
       board[numb] = "O";
+      setBoard(board);
+
       document.getElementById(numb.toString()).setAttribute('name', 'checked');
       document.getElementById(numb.toString()).firstElementChild.textContent = 'O';
       document.getElementById(numb.toString()).firstElementChild.setAttribute('class', 'circle');
@@ -286,9 +317,6 @@ function App() {
     setShowJoinOptions(false);
     const id = document.getElementById('idOfGame').value;
     gameId = id;
-    if (purpose === 'create') {
-      sync(id)
-    }
   }
 
   return (
@@ -297,19 +325,19 @@ function App() {
       <div className="cantainer">
         <div className="line" id="line"></div>
         <div className="rows">
-          <button className="box" id="0" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="1" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="2" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="0" onClick={(event) => { turn(event.target) }}><span>{board[0]}</span></button>
+          <button className="box" id="1" onClick={(event) => { turn(event.target) }}><span>{board[1]}</span></button>
+          <button className="box" id="2" onClick={(event) => { turn(event.target) }}><span>{board[2]}</span></button>
         </div>
         <div className="rows">
-          <button className="box" id="3" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="4" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="5" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="3" onClick={(event) => { turn(event.target) }}><span>{board[3]}</span></button>
+          <button className="box" id="4" onClick={(event) => { turn(event.target) }}><span>{board[4]}</span></button>
+          <button className="box" id="5" onClick={(event) => { turn(event.target) }}><span>{board[5]}</span></button>
         </div>
         <div className="rows">
-          <button className="box" id="6" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="7" onClick={(event) => { turn(event.target) }}><span></span></button>
-          <button className="box" id="8" onClick={(event) => { turn(event.target) }}><span></span></button>
+          <button className="box" id="6" onClick={(event) => { turn(event.target) }}><span>{board[6]}</span></button>
+          <button className="box" id="7" onClick={(event) => { turn(event.target) }}><span>{board[7]}</span></button>
+          <button className="box" id="8" onClick={(event) => { turn(event.target) }}><span>{board[8]}</span></button>
         </div>
       </div>
       {opponent === 'online' ? (
