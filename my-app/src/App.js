@@ -32,27 +32,6 @@ function App() {
   const [purpose, setPurpose] = useState('Join');
   let gameId = 'default';
 
-  // setInterval(() => {
-  //   get(ref(db, 'Game Rooms/' + gameId)).then((snapshot) => {
-  //     let data = (snapshot.val());
-  //     setBoard(data.board);
-  //     setPlayer(data.player);
-  //     board.forEach((element, index) => {
-  //       if (element !== '') {
-  //         if (element === 'X') {
-  //           document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
-  //         } else if (element === 'O') {
-  //           document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
-  //         }
-  //         document.getElementById(index.toString()).firstElementChild.textContent = element;
-  //       }
-  //     });
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-  //   console.log(board)
-  // }, 3000);
-
   useEffect(() => {
     if (gameId !== undefined) {
       set(ref(db, 'Game Rooms/' + gameId), {
@@ -65,33 +44,30 @@ function App() {
         .catch((error) => {
           console.log('Turn not Saved Error ' + error);
         });
+      board.forEach((element, index) => {
+        if (element !== '') {
+          if (element === 'X') {
+            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
+          } else if (element === 'O') {
+            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+          }
+          document.getElementById(index.toString()).firstElementChild.textContent = element;
+        }
+      });
     }
-
   }, [board, db, gameId, player])
 
   useEffect(() => {
     if (gameId !== undefined) {
-
-
       onValue(ref(db, 'Game Rooms/' + gameId), (snapshot) => {
         let data = (snapshot.val());
         setBoard(data.board);
-        console.log(board);
         setPlayer(data.player);
-        board.forEach((element, index) => {
-          if (element !== '') {
-            if (element === 'X') {
-              document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
-            } else if (element === 'O') {
-              document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
-            }
-            document.getElementById(index.toString()).firstElementChild.textContent = element;
-          }
-        });
+
       }, (error) => {
         console.error(error);
       });
-      
+
     }
   }, [db, gameId, player])
 
