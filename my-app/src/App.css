@@ -3,8 +3,8 @@
 
 @media screen and (max-width:470px) {
   .box {
-    width: 6.8em;
-    height: 7.3em;
+    width: 6.8em !important;
+    height: 7.3em !important;
   }
 }
 
