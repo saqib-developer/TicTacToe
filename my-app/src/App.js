@@ -8,8 +8,6 @@ import ShowJoinOptions from './components/ShowJoinOptions';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 function App() {
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyBwCzXU5gobAsSwICILCS7ooo3sfkGX76M",
     authDomain: "tictactoe-a8087.firebaseapp.com",
@@ -26,11 +24,11 @@ function App() {
 
   const [showJoinOptions, setShowJoinOptions] = useState(false)
   const [player, setPlayer] = useState(1);
-  let opponent = 'online';//ai, online, twoPlayer
+  let opponent = 'ai'; //ai, online, twoPlayer
   let canrun = true;
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
   const [purpose, setPurpose] = useState('Join');
-  let gameId = 'default';
+  const [gameId, setGameId] = useState();
 
   useEffect(() => {
     if (gameId !== undefined) {
@@ -44,17 +42,20 @@ function App() {
         .catch((error) => {
           console.log('Turn not Saved Error ' + error);
         });
-      board.forEach((element, index) => {
-        if (element !== '') {
-          if (element === 'X') {
-            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
-          } else if (element === 'O') {
-            document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
-          }
-          document.getElementById(index.toString()).firstElementChild.textContent = element;
-        }
-      });
     }
+    board.forEach((element, index) => {
+      if (element === 'X') {
+        document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'cross');
+      } else if (element === 'O') {
+        document.getElementById(index.toString()).firstElementChild.setAttribute('class', 'circle');
+      }
+    });
+
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('line').style.display = 'none';
+    RealWinner();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board, db, gameId, player])
 
   useEffect(() => {
@@ -63,18 +64,48 @@ function App() {
         let data = (snapshot.val());
         setBoard(data.board);
         setPlayer(data.player);
-
       }, (error) => {
         console.error(error);
       });
-
     }
   }, [db, gameId, player])
 
   const turn = (element) => {
-    let possible = element.hasAttribute('name');
-    if (!possible && canrun) {
-      if (opponent === 'ai') {
+    if ((board[parseInt(element.id)] === "") && canrun) {
+      if (opponent === 'online') {
+        if (player === 1) {
+          setPlayer(player + 1);
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'X';
+            return [...ps]
+          });
+        } else if (player === 2) {
+          setPlayer(player - 1);
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'O';
+            return [...ps]
+          });
+        }
+      }
+
+      else if (opponent === 'twoPlayer') {
+        setGameId(undefined);
+        if (player === 1) {
+          setPlayer(player + 1);
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'X';
+            return [...ps]
+          });
+        } else if (player === 2) {
+          setPlayer(player - 1);
+          setBoard(ps => {
+            ps[parseInt(element.id)] = 'O';
+            return [...ps]
+          });
+        }
+      }
+
+      else if (opponent === 'ai') {
         element.setAttribute('name', 'checked');
         element.firstElementChild.textContent = 'X';
         element.firstElementChild.setAttribute('class', 'cross');
@@ -85,42 +116,8 @@ function App() {
         // });
         computerTurn();
       }
-
-      else if (opponent === 'twoPlayer') {
-        if (player === 1) {
-          // player++;
-          element.firstElementChild.textContent = 'X';
-          element.firstElementChild.setAttribute('class', 'cross');
-          board[parseInt(element.id)] = "X";
-        } else if (player === 2) {
-          // player--;
-          element.firstElementChild.textContent = 'O';
-          element.firstElementChild.setAttribute('class', 'circle');
-          board[parseInt(element.id)] = "O";
-        }
-      }
-
-      else if (opponent === 'online') {
-        if (player === 1) {
-          setPlayer(player + 1);
-          // element.firstElementChild.setAttribute('class', 'cross');
-          setBoard(ps => {
-            ps[parseInt(element.id)] = 'X';
-            return [...ps]
-          });
-        } else if (player === 2) {
-          setPlayer(player - 1);
-          // element.firstElementChild.setAttribute('class', 'circle');
-          setBoard(ps => {
-            ps[parseInt(element.id)] = 'O';
-            return [...ps]
-          });
-        }
-      }
-      RealWinner();
     }
   }
-
   function computerTurn() {
     let numb = minimax(board, 'O').move;
     if (numb !== undefined) {
@@ -132,7 +129,6 @@ function App() {
       document.getElementById(numb.toString()).firstElementChild.setAttribute('class', 'circle');
     }
   }
-
 
   function minimax(board, player) {
     // Base case: check if the game is over
@@ -176,7 +172,6 @@ function App() {
 
   function checkWinner(board) {
     // Check rows
-    // 0 3 6
     for (let i = 0; i < 9; i += 3) {
       if (board[i] !== "" && board[i] === board[i + 1] && board[i] === board[i + 2]) {
         if (i === 6) {
@@ -216,7 +211,6 @@ function App() {
     ;
   }
 
-
   function RealWinner() {
     let winnerPlace = checkWinner(board);
 
@@ -232,40 +226,34 @@ function App() {
         switch (winnerPlace.place) {
           case 0:
             console.log(0);
-            document.getElementById('line').style.transform = 'rotate(90deg)'
-            document.getElementById('line').style.marginBottom = '226px'
+            document.getElementById('line').style.transform = 'translate(0,-157px) rotate(90deg)'
             break;
           case 1:
             console.log(1);
-            document.getElementById('line').style.transform = 'rotate(0deg)'
-            document.getElementById('line').style.marginRight = '250px'
+            document.getElementById('line').style.transform = 'translate(-136px,0) rotate(0deg)'
             break;
           case 2:
             console.log(2);
-            document.getElementById('line').style.transform = 'rotate(0deg)'
             break;
           case 3:
             console.log(3);
-            document.getElementById('line').style.transform = 'rotate(90deg)'
-            document.getElementById('line').style.marginBottom = '-27px'
+            document.getElementById('line').style.transform = 'translate(0px, -14px) rotate(90deg)'
             break;
           case 4:
             console.log(4);
-            document.getElementById('line').style.transform = 'rotate(0deg)'
-            document.getElementById('line').style.marginRight = '-250px'
+            document.getElementById('line').style.transform = 'translate(142px,0) rotate(0deg)'
             break;
           case 5:
             console.log(5);
-            document.getElementById('line').style.transform = 'rotate(90deg)'
-            document.getElementById('line').style.marginBottom = '-317px'
+            document.getElementById('line').style.transform = 'translate(0px, 126px) rotate(90deg)'
             break;
           case 6:
             console.log(6);
-            document.getElementById('line').style.transform = 'rotate(-45deg)'
+            document.getElementById('line').style.transform = 'rotate(-45deg) scaleY(1.3)'
             break;
           case 7:
             console.log(7);
-            document.getElementById('line').style.transform = 'rotate(45deg)'
+            document.getElementById('line').style.transform = 'rotate(45deg) scaleY(1.3)'
             break;
           default:
             break;
@@ -285,14 +273,15 @@ function App() {
   }
 
   const restart = () => {
-    window.location.reload(false);
+    setBoard(["", "", "", "", "", "", "", "", ""])
+    setPlayer(1);
   }
 
   const saveData = (event) => {
     event.preventDefault();
     setShowJoinOptions(false);
     const id = document.getElementById('idOfGame').value;
-    gameId = id;
+    setGameId(id);
   }
 
   return (
@@ -322,8 +311,9 @@ function App() {
           <button className="restart" onClick={() => { setShowJoinOptions(true); setPurpose('Create'); }}>Create</button>
         </div>
       ) : (
-        <button className="restart" onClick={restart}>Restart</button>
+        <></>
       )}
+      <button className="restart" onClick={restart}>Restart</button>
       {showJoinOptions ? (
         <ShowJoinOptions purpose={purpose} saveData={saveData} setShowJoinOptions={setShowJoinOptions} />
       ) : (
