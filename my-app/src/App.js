@@ -88,12 +88,12 @@ function App() {
 
       else if (opponent === 'twoPlayer') {
         if (player === 1) {
-          player++;
+          // player++;
           element.firstElementChild.textContent = 'X';
           element.firstElementChild.setAttribute('class', 'cross');
           board[parseInt(element.id)] = "X";
         } else if (player === 2) {
-          player--;
+          // player--;
           element.firstElementChild.textContent = 'O';
           element.firstElementChild.setAttribute('class', 'circle');
           board[parseInt(element.id)] = "O";
