@@ -24,7 +24,7 @@ function App() {
 
   const [showJoinOptions, setShowJoinOptions] = useState(false)
   const [player, setPlayer] = useState(1);
-  let opponent = 'online'; //ai, online, twoPlayer
+  let opponent = 'twoPlayer'; //ai, online, twoPlayer
   let canrun = true;
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""])
   const [purpose, setPurpose] = useState('Join');
@@ -115,6 +115,7 @@ function App() {
         //   return [...ps]
         // });
         computerTurn();
+        RealWinner();
       }
     }
   }
